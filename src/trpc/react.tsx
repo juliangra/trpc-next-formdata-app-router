@@ -16,7 +16,6 @@ import SuperJSON from "superjson";
 
 import { type AppRouter } from "~/server/api/root";
 import { createQueryClient } from "./query-client";
-import { DataTransformer } from "@trpc/server/unstable-core-do-not-import";
 
 let clientQueryClientSingleton: QueryClient | undefined = undefined;
 const getQueryClient = () => {
@@ -43,16 +42,6 @@ export type RouterInputs = inferRouterInputs<AppRouter>;
  * @example type HelloOutput = RouterOutputs['example']['hello']
  */
 export type RouterOutputs = inferRouterOutputs<AppRouter>;
-
-export class FormDataTransformer implements DataTransformer {
-  serialize(object: any): any {
-    return object;
-  }
-
-  deserialize(object: any): any {
-    return object;
-  }
-}
 
 export function TRPCReactProvider(props: { children: React.ReactNode }) {
   const queryClient = getQueryClient();
