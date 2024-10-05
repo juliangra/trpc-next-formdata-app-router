@@ -7,7 +7,11 @@ interface DataTransformer {
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export class FormDataTransformer implements DataTransformer {
   serialize(object: any) {
-    return object as FormData;
+    if (!(object instanceof FormData)) {
+      throw new Error("Expected FormData");
+    }
+
+    return object;
   }
 
   deserialize(object: any) {
