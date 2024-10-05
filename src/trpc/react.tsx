@@ -16,6 +16,7 @@ import SuperJSON from "superjson";
 
 import { type AppRouter } from "~/server/api/root";
 import { createQueryClient } from "./query-client";
+import { FormDataTransformer } from "./transformers";
 
 let clientQueryClientSingleton: QueryClient | undefined = undefined;
 const getQueryClient = () => {
@@ -56,8 +57,8 @@ export function TRPCReactProvider(props: { children: React.ReactNode }) {
         }),
         splitLink({
           condition: (op) => isNonJsonSerializable(op.input),
-          // @ts-expect-error Not yet implemented the ability to use FormData
           true: httpLink({
+            transformer: new FormDataTransformer(),
             url: getBaseUrl() + "/api/trpc",
           }),
           false: httpBatchLink({
