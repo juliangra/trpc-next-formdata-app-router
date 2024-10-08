@@ -5,11 +5,10 @@ import { useState } from "react";
 import { api } from "~/trpc/react";
 
 export function Upload() {
-  const [latestPost] = api.post.getLatest.useSuspenseQuery();
-
   const utils = api.useUtils();
   const [name, setName] = useState("");
   const [file, setFile] = useState<FileList>();
+
   const createPost = api.post.uploadFile.useMutation({
     onSuccess: async () => {
       await utils.post.invalidate();
@@ -19,11 +18,6 @@ export function Upload() {
 
   return (
     <div className="w-full max-w-xs">
-      {latestPost ? (
-        <p className="truncate">Your most recent post: {latestPost.name}</p>
-      ) : (
-        <p>You have no posts yet.</p>
-      )}
       <form
         onSubmit={async (_event) => {
           _event.preventDefault();
@@ -41,7 +35,7 @@ export function Upload() {
         <input
           type="file"
           onChange={(e) => setFile(e.target.files!)}
-          className="w-full rounded-full px-4 py-2 text-black"
+          className="w-full rounded-full bg-white px-4 py-2 text-black"
         />
 
         <input
